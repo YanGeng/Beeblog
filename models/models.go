@@ -6,6 +6,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"os"
 	"path"
+	"strconv"
 	"time"
 )
 
@@ -48,4 +49,51 @@ func RegisterDB() {
 	orm.RegisterModel(new(Category), new(Topic))
 	orm.RegisterDriver(_SQLITE3_DRIVER, orm.DR_Sqlite)
 	orm.RegisterDataBase("default", _SQLITE3_DRIVER, _DB_NAME, 10)
+}
+
+func AddCategory(name string) error {
+	o := orm.NewOrm()
+
+	cate := &Category{Title: name, Created: time.Now(), TopicTime: time.Now()}
+
+	qs := o.QueryTable("category")
+	err := qs.Filter("Title", name).One(cate)
+
+	if err == nil {
+		return err
+	}
+
+	_, err = o.Insert(cate)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GetAllCategories() ([]*Category, error) {
+	o := orm.NewOrm()
+
+	cates := make([]*Category, 0)
+
+	qs := o.QueryTable("category")
+	_, err := qs.All(&cates)
+
+	return cates, err
+}
+
+func DelCategory(id string) error {
+	cid, err := strconv.ParseInt(id, 10, 64)
+
+	if err != nil {
+		return err
+	}
+
+	o := orm.NewOrm()
+	cate := &Category{Id: cid}
+
+	_, err = o.Delete(cate)
+
+	return err
 }

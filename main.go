@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Beeblog/controllers"
+	//"Beeblog/controllers"
 	"Beeblog/models"
 	_ "Beeblog/routers"
 	"github.com/astaxie/beego"
@@ -20,8 +20,8 @@ func main() {
 	orm.RunSyncdb("default", false, true)
 
 	// 注册 beego 路由
-	beego.Router("/", &controllers.MainController{})
-	//beego.Router("/log", &controllers.HomeController{})
+	//beego.Router("/", &controllers.MainController{})
+	//beego.Router("/login", &controllers.LoginController{})
 
 	beego.Run()
 }
