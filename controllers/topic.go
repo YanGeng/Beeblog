@@ -12,3 +12,8 @@ func (this *TopicController) Get() {
 	this.Data["IsTopic"] = true
 	this.TplNames = "topic.html"
 }
+
+func (this *TopicController) Add() {
+	this.Data["IsTopic"] = true
+	this.TplNames = "topic_add.html"
+}
