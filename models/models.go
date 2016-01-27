@@ -97,3 +97,16 @@ func DelCategory(id string) error {
 
 	return err
 }
+
+func AddTopic(title, content string) error {
+	o := orm.NewOrm()
+	topic := &Topic{
+		Title:   title,
+		Content: content,
+		Created: time.Now(),
+		Updated: time.Now(),
+	}
+
+	_, err := o.Insert(topic)
+	return err
+}
