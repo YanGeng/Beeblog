@@ -10,11 +10,21 @@ type TopicController struct {
 }
 
 func (this *TopicController) Get() {
+	this.Data["IsLogin"] = checkAccount(this.Ctx)
 	this.Data["IsTopic"] = true
+
+	topics, err := models.GetAllTopics()
+	if err != nil {
+		beego.Error(err)
+	} else {
+		this.Data["Topics"] = topics
+	}
+
 	this.TplNames = "topic.html"
 }
 
 func (this *TopicController) Add() {
+	this.Data["IsLogin"] = checkAccount(this.Ctx)
 	this.Data["IsTopic"] = true
 	this.TplNames = "topic_add.html"
 }
