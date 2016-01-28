@@ -51,7 +51,7 @@ func (this *CategoryController) Get() {
 
 	var err error
 	this.Data["Categories"], err = models.GetAllCategories()
-	this.TplNames = "category.html"
+	this.TplName = "category.html"
 
 	if err != nil {
 		beego.Error(err)

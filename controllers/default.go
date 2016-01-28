@@ -22,5 +22,5 @@ func (c *MainController) Get() {
 		c.Data["Topics"] = topics
 	}
 
-	c.TplNames = "home.html"
+	c.TplName = "home.html"
 }

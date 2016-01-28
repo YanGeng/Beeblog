@@ -20,13 +20,13 @@ func (this *TopicController) Get() {
 		this.Data["Topics"] = topics
 	}
 
-	this.TplNames = "topic.html"
+	this.TplName = "topic.html"
 }
 
 func (this *TopicController) Add() {
 	this.Data["IsLogin"] = checkAccount(this.Ctx)
 	this.Data["IsTopic"] = true
-	this.TplNames = "topic_add.html"
+	this.TplName = "topic_add.html"
 }
 
 func (this *TopicController) Post() {

@@ -47,7 +47,7 @@ func RegisterDB() {
 	}
 
 	orm.RegisterModel(new(Category), new(Topic))
-	orm.RegisterDriver(_SQLITE3_DRIVER, orm.DR_Sqlite)
+	orm.RegisterDriver(_SQLITE3_DRIVER, orm.DRSqlite)
 	orm.RegisterDataBase("default", _SQLITE3_DRIVER, _DB_NAME, 10)
 }
 
