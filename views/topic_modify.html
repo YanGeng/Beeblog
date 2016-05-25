@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{template "header"}}
+    <title>修改文章 - 我的Beego博客</title>
+</head>
+
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            {{template "navbar" .}}
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <div class="container">
+        <h1>修改文章</h1>
+        <form method="POST" action="/topic">
+            <input type="hidden" name="tid" value="{{.Tid}}">
+            <div class="form-group">
+                <label>文章标题：</label>
+                <input type="text" name="title" class="form-control" value="{{.Topic.Title}}">
+            </div>
+
+            <div class="form-group">
+                <label>文章内容：</label>
+                <textarea cols="30" name="content" rows="10" class="form-control">{{.Topic.Content}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-default">提交修改</button>
+            <button type="button" class="btn btn-default" onclick="javascript:window.location.href='view/{{.Tid}}';">取消修改</button>
+        </form>
+    </div>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+
+</html>
