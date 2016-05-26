@@ -95,3 +95,10 @@ func (this *TopicController) Delete() {
 	
 	this.Redirect("/", 302)
 }
+
+func (this *TopicController) Test() {
+	// Test API: JSON string output
+	this.Data["json"] = map[string]interface{}{"success":0,"message":"11"}
+	this.ServeJSON()
+	return
+}
