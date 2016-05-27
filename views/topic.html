@@ -15,6 +15,8 @@
     <br/>
     <br/>
     <br/>
+<!--     <a onclick="javascript:window.location.href='/';" href="javascript:void(0);">你好</a> -->
+<!--     <a onclick="window.location.href='http://www.jb51.net';return false;" href="javascript:void(0);">三联</a> -->
     <div class="container">
         <h1>文章列表</h1>
         <a href="/topic/add" class="btn btn-default">添加文章</a>
@@ -31,17 +33,19 @@
             </thead>
             <tbody>
                 {{range .Topics}}
-                <tr>
+                <tr onclick="javascript:window.location.href='topic/view/{{.Id}}';">
                     <!--<th>{{.Id}}</th>-->
-                    <th><a href="topic/view/{{.Id}}">{{.Title}}</a></th>
+<!--                     <th><a onclick="javascript:window.location.href='www.baidu.com'; return false;" href="javascript:void(0);">{{.Title}}</a></th> -->
+                    <th>{{.Title}}</th>
                     <th>{{.Updated}}</th>
                     <th>{{.Views}}</th>
                     <th>{{.ReplyCount}}</th>
-                    <th><a href="topic/delete/{{.Id}}">删除</a></th>
+                    <th><a  href="topic/delete/{{.Id}}">删除</a></th>
                 </tr>
                 {{end}}
             </tbody>
         </table>
+        
     </div>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
