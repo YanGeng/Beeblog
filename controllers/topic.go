@@ -38,12 +38,13 @@ func (this *TopicController) Post() {
 	title := this.Input().Get("title")
 	content := this.Input().Get("content")
 	tid := this.Input().Get("tid")
+	category := this.Input().Get("category")
 
 	var err error
 	if len(tid) == 0 {
-		err = models.AddTopic(title, content)
+		err = models.AddTopic(title, category, content)
 	} else {
-		err = models.UpdateTopic(tid, title, content)
+		err = models.UpdateTopic(tid, title, category, content)
 	}
 
 	if err != nil {
@@ -94,4 +95,11 @@ func (this *TopicController) Delete() {
 	}
 	
 	this.Redirect("/", 302)
+}
+
+func (this *TopicController) Test() {
+	// Test API: JSON string output
+	this.Data["json"] = map[string]interface{}{"success":0,"message":"11"}
+	this.ServeJSON()
+	return
 }
