@@ -63,14 +63,23 @@ func (this *TopicController) View() {
 		this.Redirect("/", 302)
 		return
 	}
-	
+
 	this.Data["Topic"] = topic
 	this.Data["Tid"] = tid
+
+	replies, err := models.GetAllReplies(tid)
+	if err != nil {
+		beego.Error(err)
+		return
+	}
+
+	this.Data["Replies"] = replies
+	this.Data["IsLogin"] = checkAccount(this.Ctx)
 }
 
 func (this *TopicController) Modify() {
 	this.TplName = "topic_modify.html"
-	
+
 	tid := this.Input().Get("tid")
 	topic, err := models.GetTopic(tid)
 	if err != nil {
@@ -78,7 +87,7 @@ func (this *TopicController) Modify() {
 		this.Redirect("/", 302)
 		return
 	}
-	
+
 	this.Data["Topic"] = topic
 	this.Data["Tid"] = tid
 }
@@ -88,18 +97,18 @@ func (this *TopicController) Delete() {
 		this.Redirect(("/login"), 302)
 		return
 	}
-	
+
 	err := models.DeleteTopic(this.Ctx.Input.Param("0"))
 	if err != nil {
 		beego.Error(err)
 	}
-	
+
 	this.Redirect("/", 302)
 }
 
 func (this *TopicController) Test() {
 	// Test API: JSON string output
-	this.Data["json"] = map[string]interface{}{"success":0,"message":"11"}
+	this.Data["json"] = map[string]interface{}{"success": 0, "message": "11"}
 	this.ServeJSON()
 	return
 }

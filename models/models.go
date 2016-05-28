@@ -30,7 +30,7 @@ type Topic struct {
 	Uid             int64
 	Title           string
 	Content         string `orm:"size(5000)"`
-	Category		string
+	Category        string
 	Attachment      string
 	Created         time.Time `orm:"index"`
 	Updated         time.Time `orm:"index"`
@@ -41,15 +41,58 @@ type Topic struct {
 	ReplyLastUserId int64
 }
 
+type Comment struct {
+	Id      int64
+	Tid     int64
+	Name    string
+	Content string    `orm:"size(1000)`
+	Created time.Time `orm:"index"`
+}
+
 func RegisterDB() {
 	if !com.IsExist(_DB_NAME) {
 		os.MkdirAll(path.Dir(_DB_NAME), os.ModePerm)
 		os.Create(_DB_NAME)
 	}
 
-	orm.RegisterModel(new(Category), new(Topic))
+	orm.RegisterModel(new(Category), new(Topic), new(Comment))
 	orm.RegisterDriver(_SQLITE3_DRIVER, orm.DRSqlite)
 	orm.RegisterDataBase("default", _SQLITE3_DRIVER, _DB_NAME, 10)
+}
+
+func AddReply(tid, nickname, content string) error {
+	tidNum, err := strconv.ParseInt(tid, 10, 64)
+
+	if err != nil {
+		return err
+	}
+
+	reply := &Comment{
+		Tid:     tidNum,
+		Name:    nickname,
+		Content: content,
+		Created: time.Now(),
+	}
+
+	o := orm.NewOrm()
+	_, err = o.Insert(reply)
+
+	return err
+}
+
+func GetAllReplies(tid string) ([]*Comment, error) {
+	tidNum, err := strconv.ParseInt(tid, 10, 64)
+
+	if err != nil {
+		return nil, err
+	}
+
+	o := orm.NewOrm()
+	replies := make([]*Comment, 0)
+	qs := o.QueryTable("comment")
+	_, err = qs.Filter("tid", tidNum).All(&replies)
+
+	return replies, err
 }
 
 func AddCategory(name string) error {
@@ -104,12 +147,12 @@ func DeleteTopic(tid string) error {
 	if err != nil {
 		return err
 	}
-	
+
 	o := orm.NewOrm()
 	topic := &Topic{Id: tidNum}
-	
+
 	_, err = o.Delete(topic)
-	
+
 	return err
 }
 
@@ -150,19 +193,19 @@ func GetTopic(tid string) (*Topic, error) {
 	if err != nil {
 		return nil, err
 	}
-	
-	o := orm.NewOrm();
+
+	o := orm.NewOrm()
 	topic := new(Topic)
-	
+
 	qs := o.QueryTable("topic")
 	err = qs.Filter("id", tidNum).One(topic)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	topic.Views++
 	_, err = o.Update(topic)
-	
+
 	return topic, err
 }
 
@@ -171,10 +214,10 @@ func UpdateTopic(tid, title, category, content string) error {
 	if err != nil {
 		return err
 	}
-	
-	o := orm.NewOrm();
+
+	o := orm.NewOrm()
 	topic := &Topic{Id: tidNum}
-	
+
 	err = o.Read(topic)
 	if err == nil {
 		topic.Title = title
@@ -183,6 +226,6 @@ func UpdateTopic(tid, title, category, content string) error {
 		topic.Updated = time.Now()
 		o.Update(topic)
 	}
-	
+
 	return err
 }
