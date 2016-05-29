@@ -30,10 +30,13 @@
 					{{.Content}}
 				</p>
 			</div>
-		       {{end}}
+		    {{end}}
 		  </div>
 		  <div class="col-md-3">
 		    <h4>文章分类</h4>
+		    {{range .Categories}}
+		    <li><a onclick="window.location.href='/?cate={{.Title}}';return false;" href="javascript:void(0);">{{.Title}}</a></li>
+		    {{end}}
 		  </div>
 		</div>
 		<!-- 新 Bootstrap 核心 CSS 文件 -->
