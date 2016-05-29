@@ -25,8 +25,9 @@
     
     <div class="container">
         <h3>评论</h3>
+        {{$isLogin := .IsLogin}}
         {{range .Replies}}
-            <h4>{{.Name}} <small>{{.Created}}</small></h4>
+            <h4>{{.Name}} <small>{{.Created}}</small> {{$isLogin}} <a href="/reply/delete?tid={{.Tid}}&rid={{.Id}}">删除</a> {{end}} </h4>
             {{.Content}}
         {{end}}
         <h3>本文回复</h3>

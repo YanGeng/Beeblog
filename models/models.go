@@ -60,6 +60,20 @@ func RegisterDB() {
 	orm.RegisterDataBase("default", _SQLITE3_DRIVER, _DB_NAME, 10)
 }
 
+func DeleteReply(rid string) error {
+	ridNum, err := strconv.ParseInt(rid, 10, 64)
+
+	if err != nil {
+		return err
+	}
+
+	o := orm.NewOrm()
+	reply := &Comment{Id: ridNum}
+
+	_, err = o.Delete(reply)
+	return err
+}
+
 func AddReply(tid, nickname, content string) error {
 	tidNum, err := strconv.ParseInt(tid, 10, 64)
 
